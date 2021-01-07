@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
+use App\Models\LecturerUnit;
+use App\Models\StudentCourse;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -70,6 +74,26 @@ class DatabaseSeeder extends Seeder
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
             'password'=>'12345'
+        ]);
+
+        $ics = Course::create([
+            'name' => 'Computer Science',
+            'created_by' => $admin->id,
+        ]);
+
+        $studentCourse = StudentCourse::create([
+            'student_id' => $apiStudent->id,
+            'course_id' => $ics->id
+        ]);
+
+        $unit = Unit::create([
+           'name' => 'Discrete Maths',
+            'course_id' => $ics->id
+        ]);
+
+        $lecturerUnit = LecturerUnit::create([
+            'lecturer_id' => $lecturer->id,
+            'unit_id' => $unit->id
         ]);
 
         // assign role
