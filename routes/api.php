@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UnitController;
+use \App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Route::group([], function (){
+//    Route::get('/units', [UnitController::class, 'getAll']);
+//
+//});
+
+Route::group(['middleware' => 'auth:api'], function (){
+    Route::get('/units', [UnitController::class, 'getAll']);
+    Route::get('/userPermissions', [AuthController::class, 'getUserPermissions']);
+});
 
 Route::group([], function (){
-    Route::get('/units', [UnitController::class, 'getAll']);
+    //Route::get('/units', [UnitController::class, 'getAll']);
+    Route::post('/signup', [AuthController::class,'signUp']);
+    Route::post('/login', [AuthController::class, 'mobileLogin']);
 });
