@@ -25,15 +25,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //
 //});
 
-Route::group(['middleware' => 'auth:api'], function (){
-    Route::post('/addUnit', [UnitController::class, 'addUnit']);
-    Route::get('/units', [UnitController::class, 'getAll']);
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/addUnit', [UnitController::class, 'store']);
     Route::get('/userPermissions', [AuthController::class, 'getUserPermissions']);
     Route::post('/addPermissions', [AuthController::class, 'addPermissionToUser']);
+
+    Route::group(['middleware' => ['permission:view unit']], function () {
+        Route::get('/units', [UnitController::class, 'getAll']);
+    });
 });
 
-Route::group([], function (){
+
+Route::group([], function () {
     //Route::get('/units', [UnitController::class, 'getAll']);
-    Route::post('/signup', [AuthController::class,'signUp']);
+    Route::post('/signup', [AuthController::class, 'signUp']);
     Route::post('/login', [AuthController::class, 'mobileLogin']);
 });

@@ -8,6 +8,7 @@ use App\Models\StudentCourse;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $apiStudentRole = Role::create(['name'=>'student', 'guard_name'=>'api']);
         $webStudentRole = Role::create(['name'=>'student', 'guard_name'=>'web']);
         $lecturerRole = Role::create(['name'=>'lecturer', 'guard_name'=>'api']);
+        $superAdminRole = Role::create(['name'=>'super-admin', 'guard_name'=>'api']);
 
         // Default permissions
         $permissions = [
@@ -50,30 +52,32 @@ class DatabaseSeeder extends Seeder
         $lecturerRole->givePermissionTo(['add unit','view unit']);
         $apiStudentRole->givePermissionTo('add course');
 
+        $password = '12345';
+
         // users
         $webStudent = User::create([
             'name'=>'Web student',
             'email'=>'webStudent@gmail.com',
-            'password'=>'12345',
+            'password'=> Hash::make($password)
             //'guard_name'=>'web'
         ]);
 
         $apiStudent = User::create([
             'name'=>'APi student',
             'email'=>'apiStudent@gmail.com',
-            'password'=>'12345'
+            'password'=> Hash::make($password)
         ]);
 
         $lecturer = User::create([
             'name'=>'Lecturer',
             'email'=>'lecturer@gmail.com',
-            'password'=>'12345'
+            'password'=> Hash::make($password)
         ]);
 
         $admin = User::create([
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
-            'password'=>'12345'
+            'password'=> Hash::make($password)
         ]);
 
         $ics = Course::create([

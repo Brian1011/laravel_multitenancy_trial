@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class AuthController extends Controller
 {
@@ -56,19 +57,22 @@ class AuthController extends Controller
     public function getUserPermissions(Request $request){
         $user = User::Find($request->user()->id);
         $permissions = $user->getAllPermissions();
-        return response()->json(['status'=>1, 'data'=>['user'=>$user, 'permissions'=>$permissions]]);
+        return response()->json(['status'=>1, 'data'=>['user'=>$user]]);
     }
 
     // add permissions to a user
     public function addPermissionToUser(Request $request){
         $user = User::Find($request['user_id']);
         if($user != null){
-            $permissions = $request['permissions'];
-            $user->givePermissionTo($permissions);
-            return response()->json(['status'=>1, 'data'=>['user'=>$user]]);
+            try{
+                $permissions = $request['permissions'];
+                $user->givePermissionTo($permissions);
+                return response()->json(['status'=>1, 'data'=>['user'=>$user]]);
+            } catch (PermissionDoesNotExist $exception){
+                return response()->json(['status'=>1, 'error'=>$exception->getMessage()]);
+            }
         } else {
             return response()->json(['status'=>0, 'data'=>['error'=>'User not found']], 400);
         }
-
     }
 }
