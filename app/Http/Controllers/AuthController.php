@@ -58,4 +58,17 @@ class AuthController extends Controller
         $permissions = $user->getAllPermissions();
         return response()->json(['status'=>1, 'data'=>['user'=>$user, 'permissions'=>$permissions]]);
     }
+
+    // add permissions to a user
+    public function addPermissionToUser(Request $request){
+        $user = User::Find($request['user_id']);
+        if($user != null){
+            $permissions = $request['permissions'];
+            $user->givePermissionTo($permissions);
+            return response()->json(['status'=>1, 'data'=>['user'=>$user]]);
+        } else {
+            return response()->json(['status'=>0, 'data'=>['error'=>'User not found']], 400);
+        }
+
+    }
 }

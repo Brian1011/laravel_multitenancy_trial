@@ -26,8 +26,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //});
 
 Route::group(['middleware' => 'auth:api'], function (){
+    Route::post('/addUnit', [UnitController::class, 'addUnit']);
     Route::get('/units', [UnitController::class, 'getAll']);
     Route::get('/userPermissions', [AuthController::class, 'getUserPermissions']);
+    Route::post('/addPermissions', [AuthController::class, 'addPermissionToUser']);
 });
 
 Route::group([], function (){
