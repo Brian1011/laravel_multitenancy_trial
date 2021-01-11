@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class
         ],
 
         'api' => [
@@ -47,7 +48,7 @@ class Kernel extends HttpKernel
 
         'tenant' => [
             \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
-            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class
+            // \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class
         ]
     ];
 
