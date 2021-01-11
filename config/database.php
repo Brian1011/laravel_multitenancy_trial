@@ -91,6 +91,25 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'tenant' => [
+            'driver' => 'mysql',
+            'database' => null,
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            // other options such as host, username, password, ...
+        ],
+
+        'landlord' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'database' => env('LANDLORD_DB_NAME', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+//            'username' => 'root',
+//            'password' => 'Admin-17'
+            // other options such as host, username, password, ...
+        ],
     ],
 
     /*
